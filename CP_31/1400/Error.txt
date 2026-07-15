@@ -1,0 +1,6 @@
+mp [ {1,[ 0 1 ]} {2,[ 2 5 ]} {3,[ 3 4 ]} {4,[ 6 7 ]} ]
+candidate_1 2
+l1 1
+candidate_2 -1
+l2 0
+(int)mp.size() 4
