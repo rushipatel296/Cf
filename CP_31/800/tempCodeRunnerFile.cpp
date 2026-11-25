@@ -1,1 +1,0 @@
-i ^ arr_xor
