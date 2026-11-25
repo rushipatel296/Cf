@@ -1,5 +1,12 @@
-alice_and_bob.cpp
-B_ashmal
-B_ashmal.cpp
-carnival_wheel
-carnival_wheel.cpp
+# compiled solutions (extensionless binaries)
+*
+!*/
+!*.*
+*.dSYM/
+*.out
+.DS_Store
+Error.txt
+input.txt
+tempCodeRunnerFile.cpp
+site/data.json
+__pycache__/

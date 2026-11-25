@@ -105,7 +105,7 @@ const int MOD = 1e9+7;
 
 
 void solve(){
-    int n, k;f
+    int n, k;
     cin >> n >> k;
     // 1. Store positions of each color
     vector<vector<int>> pos(k + 1);

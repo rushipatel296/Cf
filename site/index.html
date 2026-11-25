@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rushi's Codeforces Solutions</title>
+<meta name="description" content="Browse my Codeforces solutions in C++, sorted by rating and by contest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<style>
+:root {
+  --bg: #0d1117; --panel: #161b22; --panel-2: #1c2330; --line: #2a3240;
+  --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --accent-2: #3fb950;
+  --r800: #9ca3af; --r900: #a3a3a3; --r1000: #4ade80; --r1100: #22c55e; --r1200: #2dd4bf;
+  --r1300: #38bdf8; --r1400: #60a5fa; --r1500: #a78bfa;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 Inter, system-ui, sans-serif; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+header { padding: 40px 0 24px; border-bottom: 1px solid var(--line); }
+h1 { margin: 0 0 6px; font-size: clamp(26px, 4vw, 36px); letter-spacing: -0.02em; }
+h1 span { color: var(--accent); font-family: var(--mono); }
+.sub { color: var(--muted); margin: 0 0 22px; max-width: 640px; }
+.stats { display: flex; flex-wrap: wrap; gap: 12px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 16px; min-width: 120px; }
+.stat b { display: block; font-size: 22px; font-family: var(--mono); }
+.stat small { color: var(--muted); }
+.ladder { display: flex; gap: 6px; align-items: flex-end; height: 70px; margin-top: 22px; }
+.ladder div { flex: 1; border-radius: 4px 4px 0 0; position: relative; min-height: 4px; cursor: pointer; opacity: .85; }
+.ladder div:hover { opacity: 1; }
+.ladder-labels { display: flex; gap: 6px; font: 11px var(--mono); color: var(--muted); margin-top: 4px; }
+.ladder-labels span { flex: 1; text-align: center; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 18px 0; position: sticky; top: 0; background: var(--bg); z-index: 5; }
+.tabs { display: flex; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 3px; }
+.tabs button { background: none; border: 0; color: var(--muted); font: inherit; font-weight: 500; padding: 7px 14px; border-radius: 7px; cursor: pointer; }
+.tabs button.on { background: var(--panel-2); color: var(--text); }
+input[type=search] { flex: 1; min-width: 180px; background: var(--panel); border: 1px solid var(--line); color: var(--text); font: inherit; padding: 9px 12px; border-radius: 10px; outline: none; }
+input[type=search]:focus { border-color: var(--accent); }
+main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; padding-bottom: 60px; }
+.group { margin-bottom: 26px; }
+.group h2 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 0 0 10px; display: flex; gap: 10px; align-items: baseline; }
+.group h2 .when { font: 12px var(--mono); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; cursor: pointer; display: flex; gap: 10px; align-items: center; text-align: left; color: inherit; font: inherit; width: 100%; }
+.card:hover, .card.on { border-color: var(--accent); background: var(--panel-2); }
+.tag { font: 600 11px var(--mono); padding: 2px 6px; border-radius: 5px; color: #0d1117; flex-shrink: 0; }
+.card .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.empty { color: var(--muted); padding: 40px 0; text-align: center; }
+.viewer { position: fixed; inset: 0; background: rgba(1, 4, 9, .7); display: none; z-index: 10; }
+.viewer.open { display: flex; justify-content: flex-end; }
+.sheet { width: min(820px, 100%); height: 100%; background: var(--panel); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+.sheet-head { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; align-items: flex-start; }
+.sheet-head h3 { margin: 0 0 4px; font-size: 18px; }
+.sheet-head .meta { color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.close { margin-left: auto; background: var(--panel-2); border: 1px solid var(--line); color: var(--text); border-radius: 8px; width: 34px; height: 34px; font-size: 18px; cursor: pointer; flex-shrink: 0; }
+.sheet pre { margin: 0; flex: 1; overflow: auto; }
+.sheet pre code { font: 13px/1.55 var(--mono); padding: 18px 20px !important; background: transparent !important; min-height: 100%; }
+footer { color: var(--muted); font-size: 13px; padding: 24px 0 40px; border-top: 1px solid var(--line); }
+@media (max-width: 600px) {
+  header { padding-top: 28px; }
+  .controls { position: static; }
+  .sheet-head { padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Rushi's <span>Codeforces</span> grind</h1>
+    <p class="sub">My Codeforces solutions in C++. Climbing the CP-31 sheet one rating at a time, plus live contests and random practice. Click any problem to read the code.</p>
+    <div class="stats" id="stats"></div>
+    <div class="ladder" id="ladder" title="Problems solved per rating"></div>
+    <div class="ladder-labels" id="ladderLabels"></div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="controls">
+    <div class="tabs" id="tabs">
+      <button data-tab="ladder" class="on">By rating</button>
+      <button data-tab="contests">Contests</button>
+      <button data-tab="practice">Practice</button>
+    </div>
+    <input type="search" id="q" placeholder="Search problems or contests…" autocomplete="off">
+  </div>
+  <main id="list"><p class="empty">Loading…</p></main>
+  <footer>Source on <a href="https://github.com/rushipatel296/Cf">GitHub</a> · Problems © Codeforces</footer>
+</div>
+
+<div class="viewer" id="viewer">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="vTitle">
+    <div class="sheet-head">
+      <div>
+        <h3 id="vTitle"></h3>
+        <div class="meta" id="vMeta"></div>
+      </div>
+      <button class="close" id="vClose" aria-label="Close">×</button>
+    </div>
+    <pre><code class="language-cpp" id="vCode"></code></pre>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+const REPO = "https://github.com/rushipatel296/Cf/blob/main/";
+const RATINGS = [800, 900, 1000, 1100, 1200, 1300, 1400, 1500];
+const color = r => `var(--r${r})`;
+const $ = id => document.getElementById(id);
+let data = [], tab = "ladder", query = "";
+
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const letter = p => (p.name.match(/^([A-Z]\d?)\./) || [, "•"])[1];
+const fmtDate = d => d ? new Date(d + "T00:00").toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) : "";
+
+function card(p) {
+  const t = p.rating ? `<span class="tag" style="background:${color(p.rating)}">${p.rating}</span>`
+                     : `<span class="tag" style="background:var(--accent)">${letter(p)}</span>`;
+  return `<button class="card" data-id="${esc(p.id)}">${t}<span class="n">${esc(p.name.replace(/^[A-Z]\d?\.\s*/, ""))}</span></button>`;
+}
+
+function group(title, when, items) {
+  return `<section class="group"><h2>${esc(title)} <span class="when">${when}</span></h2><div class="grid">${items.map(card).join("")}</div></section>`;
+}
+
+function render() {
+  const q = query.toLowerCase();
+  const items = data.filter(p => p.section === tab &&
+    (!q || p.name.toLowerCase().includes(q) || p.contest.toLowerCase().includes(q)));
+  let html = "";
+  if (tab === "ladder") {
+    for (const r of RATINGS) {
+      const xs = items.filter(p => p.rating === r);
+      if (xs.length) html += group(`Rating ${r}`, `${xs.length} solved`, xs);
+    }
+  } else if (tab === "contests") {
+    const by = new Map();
+    for (const p of items) (by.get(p.folder) || by.set(p.folder, []).get(p.folder)).push(p);
+    [...by.values()].sort((a, b) => b[0].date.localeCompare(a[0].date))
+      .forEach(xs => html += group(xs[0].contest, fmtDate(xs[0].date), xs));
+  } else if (items.length) {
+    html = group("Random practice", `${items.length} solved`, items);
+  }
+  $("list").innerHTML = html || `<p class="empty">Nothing matches “${esc(query)}”.</p>`;
+}
+
+function stats() {
+  const contests = new Set(data.filter(p => p.section === "contests").map(p => p.folder)).size;
+  const max = Math.max(...data.filter(p => p.rating).map(p => p.rating));
+  $("stats").innerHTML = [
+    [data.length, "problems solved"], [contests, "contests"], [max, "highest rating"]
+  ].map(([b, s]) => `<div class="stat"><b>${b}</b><small>${s}</small></div>`).join("");
+  const counts = RATINGS.map(r => data.filter(p => p.rating === r).length);
+  const top = Math.max(...counts);
+  $("ladder").innerHTML = counts.map((c, i) =>
+    `<div data-r="${RATINGS[i]}" title="${c} problems at ${RATINGS[i]}" style="height:${Math.max(6, c / top * 100)}%;background:${color(RATINGS[i])}"></div>`).join("");
+  $("ladderLabels").innerHTML = RATINGS.map(r => `<span>${r}</span>`).join("");
+}
+
+function open(id) {
+  const p = data.find(x => x.id === id);
+  if (!p) return close();
+  $("vTitle").textContent = p.name;
+  const where = p.rating ? `Rating ${p.rating}` : p.contest || "Random practice";
+  $("vMeta").innerHTML = [
+    esc(where),
+    p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">Problem on Codeforces ↗</a>` : "",
+    `<a href="${REPO + p.path.split("/").map(encodeURIComponent).join("/")}" target="_blank" rel="noopener">View on GitHub ↗</a>`
+  ].filter(Boolean).map(s => `<span>${s}</span>`).join("");
+  const code = $("vCode");
+  code.textContent = p.code;
+  delete code.dataset.highlighted;
+  if (window.hljs) hljs.highlightElement(code);
+  $("viewer").classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.querySelectorAll(".card.on").forEach(c => c.classList.remove("on"));
+  document.querySelector(`.card[data-id="${CSS.escape(id)}"]`)?.classList.add("on");
+}
+
+function close() {
+  $("viewer").classList.remove("open");
+  document.body.style.overflow = "";
+  if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+}
+
+function setTab(t) {
+  tab = t;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
+  render();
+}
+
+function fromHash() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const p = data.find(x => x.id === id);
+  if (p) { if (p.section !== tab) setTab(p.section); open(id); } else close();
+}
+
+$("tabs").onclick = e => e.target.dataset.tab && setTab(e.target.dataset.tab);
+$("q").oninput = e => { query = e.target.value.trim(); render(); };
+$("list").onclick = e => { const c = e.target.closest(".card"); if (c) location.hash = encodeURIComponent(c.dataset.id); };
+$("ladder").onclick = e => {
+  const r = e.target.dataset.r; if (!r) return;
+  setTab("ladder");
+  [...document.querySelectorAll(".group h2")].find(h => h.textContent.includes(`Rating ${r}`))?.scrollIntoView({ behavior: "smooth" });
+};
+$("viewer").onclick = e => { if (e.target === $("viewer")) close(); };
+$("vClose").onclick = close;
+addEventListener("keydown", e => e.key === "Escape" && close());
+addEventListener("hashchange", fromHash);
+
+fetch("data.json").then(r => r.json()).then(d => {
+  data = d; stats(); render(); if (location.hash) fromHash();
+}).catch(() => $("list").innerHTML = `<p class="empty">Couldn't load the solutions.</p>`);
+</script>
+</body>
+</html>
